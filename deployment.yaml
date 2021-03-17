@@ -1,34 +1,44 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: interface-service
-spec:
-  selector:
-    app: interface
-  ports:
-  - protocol: "TCP"
-    port: 6000
-    targetPort: 5000
-  type: LoadBalancer
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: interface
+  name: web
+  namespace: default
 spec:
   selector:
     matchLabels:
-      app: interface
-  replicas: 1
+      run: web
   template:
     metadata:
       labels:
-        app: interface
+        run: web
     spec:
       containers:
-      - name: interface
-        image: gcr.io/automatictrainingcicd/interface_automatic_training:cpu
-        imagePullPolicy: Always
+      - image: gcr.io/automatictrainingcicd/interface_automatic_training:cpu
+        imagePullPolicy: IfNotPresent
+        name: web
         ports:
-        - containerPort: 5000
+        - containerPort: 8080
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  namespace: default
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: web
+  type: NodePort
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: basic-ingress
+spec:
+  backend:
+    serviceName: web
+    servicePort: 8080
