@@ -1,14 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: interface-service
+spec:
+  selector:
+    app: interface
+  ports:
+  - protocol: "TCP"
+    port: 6000
+    targetPort: 5000
+  type: LoadBalancer
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: interface
-  labels:
-    app: interface
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: interface
+  replicas: 1
   template:
     metadata:
       labels:
@@ -17,21 +29,6 @@ spec:
       containers:
       - name: interface
         image: gcr.io/automatictrainingcicd/interface:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: interface
-  labels:
-    app: interface
-spec:
-  ports:
-    - port: 5000
-      targetPort: 5000
-  selector:
-    app: hello
-    tier: hello
-  type: LoadBalancer
