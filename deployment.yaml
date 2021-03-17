@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: interface
-        image: gcr.io/automatictrainingcicd/interface:latest
+        image: gcr.io/automatictrainingcicd/interface_automatic_training:cpu
         imagePullPolicy: Always
         ports:
         - containerPort: 5000

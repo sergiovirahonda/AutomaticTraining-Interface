@@ -13,6 +13,10 @@ RUN mv /root/AutomaticTraining-Interface/__init__.py /root
 RUN mv /root/AutomaticTraining-Interface/static /root
 RUN mv /root/AutomaticTraining-Interface/templates /root
 
+RUN mkdir /app
+WORKDIR /app
+ADD . /app/
+
 EXPOSE 5000
 
-ENTRYPOINT ["python3","__init__.py"]
+ENTRYPOINT ["python3","/app/__init__.py"]
