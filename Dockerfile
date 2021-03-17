@@ -17,6 +17,6 @@ RUN mkdir /app
 WORKDIR /app
 ADD . /app/
 
-EXPOSE 5000
+EXPOSE 8080
 
 ENTRYPOINT ["python3","/app/__init__.py"]
