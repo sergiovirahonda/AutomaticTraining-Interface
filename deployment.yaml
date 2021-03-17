@@ -5,33 +5,17 @@ metadata:
   labels:
     app: interface
 spec:
-  strategy:
-    type: Recreate
+  replicas: 1
+  selector:
+    matchLabels:
+      app: interface
   template:
     metadata:
       labels:
         app: interface
-        tier: interface
     spec:
       containers:
       - name: interface
-        image: gcr.io/automatictrainingcicd/interface@sha256:e26813a9aac582e468087c8962aac964f9962b796eab910a4e7a2573865ea5e1
-        imagePullPolicy: Always
+        image: gcr.io/automatictrainingcicd/interface:latest
         ports:
         - containerPort: 5000
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: interface
-  labels:
-    app: interface
-spec:
-  ports:
-  - port: 5000
-    targetPort: 5000
-  selector:
-    app: interface
-    tier: interface
-type: LoadBalancer
