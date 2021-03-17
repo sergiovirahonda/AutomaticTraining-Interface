@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: gke-interface
+spec:
+  hostNetwork: true
+  containers:
+  - name: interface
+    image: gcr.io/automatictrainingcicd/interface:latest
