@@ -1,4 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gke-interface
+  labels:
+    app: interface
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: interface
+  template:
+    metadata:
+      labels:
+        app: interface
+    spec:
+      containers:
+        - name: interface
+          image: gcr.io/automatictrainingcicd/interface:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+---
 apiVersion: v1
+kind: Service
+metadata:
+  name: interface-service
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: interface
+  type: LoadBalancer
+
+
+piVersion: v1
 kind: Pod
 metadata:
   name: gke-interface
