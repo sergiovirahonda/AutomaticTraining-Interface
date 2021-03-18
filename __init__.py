@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 
 app = Flask(__name__)
-api = 'http://172.17.0.2:5000/'
+api = 'http://10.127.240.120:5000/'
 headers = {'content-type': 'image/png'}
 
 @app.route('/')
